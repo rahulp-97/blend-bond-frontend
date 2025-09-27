@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../redux-toolkit/userSlice";
+import { addUser, removeUser } from "../redux-toolkit/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import CustomLoader from "./CustomLoader";
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
-    emailId: "user1@abc.com",
+    emailId: "rahulkprajapati97@gmail.com",
     password: "User@1278",
     firstName: "test",
     lastName: "last",
@@ -34,13 +34,26 @@ const Login = () => {
       });
       localStorage.removeItem("auth");
       const loggedinUserData = loggedinUser?.data?.data;
-      dispatch(addUser(loggedinUserData));
-      localStorage.setItem("auth", JSON.stringify(loggedinUserData));
-      if (errMsg) {
-        setErrMsg("");
-      };
-      setIsLoading(false);
-      navigate("/", { replace: true });
+      if (loggedinUserData?.isVerified) {
+        dispatch(addUser(loggedinUserData));
+        localStorage.setItem("auth", JSON.stringify(loggedinUserData));
+        if (errMsg) {
+          setErrMsg("");
+        };
+        setIsLoading(false);
+        navigate("/", { replace: true });
+      } else if (!loggedinUserData?.isVerified) {
+        if (userData) {
+          dispatch(removeUser());
+        }
+        localStorage.removeItem("auth");
+        localStorage.setItem("unverified", JSON.stringify(loggedinUserData));
+        if (errMsg) {
+          setErrMsg("Please verify your email.");
+        };
+        setIsLoading(false);
+        navigate(`/verify-existing?email=${encodeURIComponent(loggedinUserData?.emailId)}`, { replace: true });
+      }
     } catch (error) {
       setIsLoading(false);
       setErrMsg(error?.response?.data?.message);
@@ -55,15 +68,15 @@ const Login = () => {
       }, {
         withCredentials: true
       });
+      const registeredData = registeredUser?.data?.data;
+
+      if (userData) {
+        dispatch(removeUser());
+      }
       localStorage.removeItem("auth");
-      const registeredData = registeredUser?.data?.data
-      dispatch(addUser(registeredData));
-      localStorage.setItem("auth", JSON.stringify(registeredData));
-      if (errMsg) {
-        setErrMsg("");
-      };
+      localStorage.setItem("unverified", JSON.stringify(registeredData));
       setIsLoading(false);
-      navigate("/profile", { replace: true });
+      navigate(`/verification?email=${encodeURIComponent(registeredData?.emailId)}`, { replace: true });
     } catch (error) {
       setIsLoading(false);
       setErrMsg(error?.response?.data?.message);
@@ -76,6 +89,14 @@ const Login = () => {
       ...userInput, [name]: value
     })
   };
+
+  useEffect(() => {
+    return () => {
+      if(isLoading) {
+        setIsLoading(false);
+      }
+    };
+  }, []);
 
   const { firstName, lastName, emailId, password, age, gender } = userInput;
 

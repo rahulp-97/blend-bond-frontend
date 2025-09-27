@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFeed } from '../redux-toolkit/feedSlice';
+import { removeUser } from '../redux-toolkit/userSlice';
 import UserCard from './UserCard';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,13 +21,18 @@ const Feed = () => {
       });
       dispatch(addFeed(response?.data?.data));
     } catch(err) {
-      console.log(err);
+      if(err?.response?.data?.data === "unauthorized") {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("unverified");
+        dispatch(removeUser());
+        navigate("/login", { replace: true });
+      }
     }
   };
 
   useEffect(() => {
     if(!userData) {
-      navigate('/login')
+      navigate('/login');
     }
     else if(!feedData?.length) {
       getFeed();
