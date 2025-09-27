@@ -8,12 +8,12 @@ import CustomLoader from "./CustomLoader";
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
-    emailId: "rahulkprajapati97@gmail.com",
-    password: "User@1278",
-    firstName: "test",
-    lastName: "last",
-    age: '23',
-    gender: 'male',
+    emailId: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    age: "",
+    gender: "",
   });
   const [errMsg, setErrMsg] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -183,12 +183,12 @@ const Login = () => {
           </fieldset>
           {errMsg && <p className="text-xs text-red-500 font-thin">{errMsg}</p>}
           <div className="card-actions justify-center">
-            <button className="btn btn-primary md:px-10" onClick={isLoginForm ? handleLogin : handleSignup}>
+            <button className="btn btn-primary md:px-10" disabled={isLoading} onClick={isLoginForm ? handleLogin : handleSignup}>
               {isLoginForm ? 'Login' : 'Sign up'}
             </button>
           </div>
           <p>OR</p>
-          <span>{isLoginForm ? 'new user?' : 'already a registered user?'} <button className="text-green-300" onClick={() => setIsLoginForm(!isLoginForm)}>
+          <span>{isLoginForm ? 'new user?' : 'already a registered user?'} <button className="text-green-300 cursor-pointer" disabled={isLoading} onClick={() => setIsLoginForm(!isLoginForm)}>
             {isLoginForm ? 'register' : 'login'}
           </button></span>
         </div>
