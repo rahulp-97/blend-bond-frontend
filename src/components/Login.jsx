@@ -177,7 +177,7 @@ const Login = () => {
               name="password"
               onChange={handleChange}
               placeholder="password"
-              type="text"
+              type="password"
               value={password}
             />
           </fieldset>

@@ -37,8 +37,8 @@ const UserCard = ({ user }) => {
             {user?.about}
           </p>
           <div className="card-actions justify-center my-4">
-            <button className={`btn bg-red-500 rounded-xl ${disableBtn}`} onClick={() => handleSendRequest('ignored', user?._id)}>ignore</button>
-            <button className={`btn btn-primary rounded-xl ${disableBtn}`} onClick={() => handleSendRequest('interested', user?._id)}>interested</button>
+            <button className={`btn bg-transparent text-red-500 border-red-500 hover:bg-red-500 hover:text-black hover:border-transparent rounded-xl ${disableBtn}`} onClick={() => handleSendRequest('ignored', user?._id)}>ignore</button>
+            <button className={`btn bg-transparent border-[#A600FF] hover:bg-[#A600FF] hover:text-black hover:border-transparent rounded-xl ${disableBtn}`} onClick={() => handleSendRequest('interested', user?._id)}>interested</button>
           </div>
         </div>
       </div>

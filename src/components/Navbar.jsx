@@ -33,9 +33,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar bg-base-200 shadow-sm mb-6">
-      <div className="flex-1">
-        <Link className="btn btn-ghost text-xl" to='/'>BlendBond</Link>
+    <div className="navbar bg-black shadow-sm mb-6">
+      <div className="flex-1 mx-2">
+        <Link style={{textDecoration: 'none'}} className="text-2xl text-[#A600FF]" to='/'>blendbond</Link>
       </div>
       <div className="flex gap-2">
         {/* <input
@@ -56,7 +56,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-black text-white rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
                 <Link className="justify-between" to='/profile'>
