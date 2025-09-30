@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createSocketConnection } from '../utils/socket';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
 
 const Chat = () => {
   const { targetUserId } = useParams();
@@ -11,6 +13,35 @@ const Chat = () => {
   const userId = user?._id;
 
   const navigate = useNavigate();
+
+  const fetchMessages = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
+        withCredentials: true
+      });
+      const messages = res?.data?.data?.messages?.map(msg => {
+        const { senderId, text, createdAt } = msg;
+        const time = new Date(createdAt).toLocaleString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true
+        });
+        return {
+          firstName: senderId?.firstName,
+          lastName: senderId?.lastName,
+          text,
+          time
+        }
+      });
+      setMessages(messages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   useEffect(() => {
     if (!userId) {
@@ -37,7 +68,7 @@ const Chat = () => {
 
 
   const sendMessage = () => {
-    if(!newMessage.trim()) {
+    if (!newMessage.trim()) {
       return;
     }
     const socket = createSocketConnection();
@@ -86,7 +117,7 @@ const Chat = () => {
               <time className="text-xs opacity-50">{msg?.time}</time>
             </div>
             <div className="chat-bubble">{msg?.text}</div>
-            <div className="chat-footer opacity-50">Delivered</div>
+            {/* <div className="chat-footer opacity-50">Delivered</div> */}
           </div>
         ))}
       </div>
