@@ -10,11 +10,12 @@ import Requests from "./components/Requests";
 import Verification from "./components/Verification";
 import VerifyExisting from "./components/VerifyExisting";
 import Chat from "./components/Chat";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addUser } from "./redux-toolkit/userSlice";
 
 function AppContent() {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const savedAuth = localStorage.getItem("auth");
@@ -26,7 +27,12 @@ function AppContent() {
         localStorage.removeItem("auth");
       }
     }
+    setIsLoading(false);
   }, [dispatch]);
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center min-h-screen"><div className="loading loading-spinner loading-lg"></div></div>;
+  }
 
   return (
     <BrowserRouter basename="/">
