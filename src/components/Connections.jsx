@@ -50,9 +50,9 @@ const Connections = () => {
   }
 
   return (
-    <div className="my-10 w-1/2 mx-auto">
+    <div className="my-1 sm:my-10 w-full sm:w-1/2 mx-auto">
       <h1 className="text-lg sm:text-2xl text-center font-extralight">
-        CONNECTIONS
+        connections
       </h1>
       {connections?.map((conn) => {
         const {
@@ -67,24 +67,26 @@ const Connections = () => {
         } = conn;
         return (
           <div key={userId} className="m-4 p-4 rounded-3xl bg-base-200">
-            <div className="flex justify-between">
-              <div>
+            <div className="flex flex-row justify-between items-start">
+              <div className="mb-0">
                 <img
                   alt="photo"
-                  className="w-20 h-20 rounded-full"
+                  className="w-12 h-12 sm:w-20 sm:h-20 rounded-full mx-auto sm:mx-0"
                   src={photoUrl}
                 />
               </div>
-              <div className="mx-4">
-                <div className="text-lg font-semibold">
+              <div className="mx-4 text-center sm:text-left">
+                <div className="text-sm sm:text-lg font-semibold">
                   {firstName + " " + lastName}
                 </div>
-                {age && gender && <p>{age + ", " + gender}</p>}
+                <span className="text-xs sm:text-lg">
+                  {age && gender && <p>{age + ", " + gender}</p>}
+                </span>
                 <p>{about}</p>
               </div>
-              <div className="self-center">
+              <div className="mt-0 sm:mt-0 sm:self-center">
                 <button
-                className="bg-transparent cursor-pointer hover:bg-white text-white font-semibold hover:text-black py-3 px-6 border border-white hover:border-transparent rounded-2xl"
+                className="bg-transparent cursor-pointer hover:bg-white text-white font-semibold hover:text-black py-2 px-4 sm:py-3 sm:px-6 border border-white hover:border-transparent rounded-2xl"
                 onClick={() => handleChatClick(userId)}
               >
                 message

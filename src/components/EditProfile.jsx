@@ -79,7 +79,7 @@ const EditProfile = ({ userProfile }) => {
         <div className="w-full sm:w-1/3 order-2 sm:order-1">
           <div className="card card-border bg-base-100 w-full">
             <div className="card-body">
-              <h1 className="card-title md:text-2xl font-extralight">Profile</h1>
+              <h1 className="text-center sm:text-left text-2xl font-extralight">Profile</h1>
 
               <fieldset className="fieldset">
                 <legend className="fieldset-legend">First Name</legend>
@@ -169,7 +169,7 @@ const EditProfile = ({ userProfile }) => {
         </div>
 
         <div className="w-full sm:w-1/3 order-1 sm:order-2">
-          <h1 className="card-title md:text-2xl mt-0 sm:mt-6 font-light">Preview</h1>
+          {/* <h1 className="text-xl md:text-2xl mt-0 sm:mt-6 font-light text-center sm:text-left">preview</h1> */}
           <div className="mt-0 sm:mt-2">
             <UserCard user={profileData} />
           </div>

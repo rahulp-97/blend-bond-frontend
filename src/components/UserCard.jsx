@@ -23,10 +23,10 @@ const UserCard = ({ user }) => {
 
   return (
     <div>
-      <div className="card bg-base-300 w-96 shadow-sm mb-16 rounded-3xl">
-        <figure>
+      <div className="card bg-base-300 w-96 shadow-sm sm:mb-16 rounded-3xl">
+        <figure className="mt-4">
           <img
-            className="p-2 rounded-3xl"
+            className="w-[90%] h-100 object-cover rounded-2xl"
             src={user?.photoUrl || null}
             alt="profile photo"
           />
