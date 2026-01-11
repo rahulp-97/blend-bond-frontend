@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -11,10 +11,17 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const closeDropdown = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
+
   const handleLogout = async () => {
     try {
+      closeDropdown();
       const response = await axios.get(`${BASE_URL}/logout`, {
-        withCredentials: true
+        withCredentials: true,
       });
       if (response?.data?.status === "success") {
         localStorage?.removeItem("auth");
@@ -35,7 +42,13 @@ const Navbar = () => {
   return (
     <div className="navbar bg-black shadow-sm mb-6">
       <div className="flex-1 mx-2">
-        <Link style={{textDecoration: 'none'}} className="text-2xl text-[#A600FF]" to='/'>blendbond</Link>
+        <Link
+          style={{ textDecoration: "none" }}
+          className="text-2xl text-[#A600FF]"
+          to="/"
+        >
+          blendbond
+        </Link>
       </div>
       <div className="flex gap-2">
         {/* <input
@@ -58,16 +71,16 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-black text-white rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li>
-                <Link className="justify-between" to='/profile'>
+              <li onClick={closeDropdown}>
+                <Link className="justify-between" to="/profile">
                   Profile
                 </Link>
               </li>
-              <li>
-                <Link to='/connections'>Connections</Link>
+              <li onClick={closeDropdown}>
+                <Link to="/connections">Connections</Link>
               </li>
-              <li>
-                <Link to='/requests'>Requests</Link>
+              <li onClick={closeDropdown}>
+                <Link to="/requests">Requests</Link>
               </li>
               <li>
                 <span onClick={handleLogout}>Logout</span>

@@ -50,7 +50,7 @@ const Connections = () => {
   }
 
   return (
-    <div className="my-1 sm:my-10 w-full sm:w-1/2 mx-auto">
+    <div className="my-1 sm:my-3 w-full sm:w-1/2 mx-auto">
       <h1 className="text-lg sm:text-2xl text-center font-extralight">
         connections
       </h1>

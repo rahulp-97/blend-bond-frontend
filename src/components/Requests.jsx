@@ -41,7 +41,7 @@ const Requests = () => {
 
   if (requests?.length === 0) {
     return (
-      <h1 className="text-sm sm:text-lg mt-2 sm:mt-6 text-center">no requests found!</h1>
+      <h1 className="text-sm sm:text-lg mt-2 sm:mt-3 text-center">no requests found!</h1>
     );
   };
 
