@@ -5,6 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { isEmptyObject } from "../utils/utils";
 import { removeUser } from "../redux-toolkit/userSlice";
+import { addFeed } from "../redux-toolkit/feedSlice";
+import { removeConnections } from "../redux-toolkit/connectionSlice";
+import { addRequests } from "../redux-toolkit/requestSlice";
 
 const Navbar = () => {
   const loggedinUser = useSelector((store) => store?.user);
@@ -24,9 +27,19 @@ const Navbar = () => {
         withCredentials: true,
       });
       if (response?.data?.status === "success") {
-        localStorage?.removeItem("auth");
+        localStorage.clear();
         dispatch(removeUser());
+        dispatch(addFeed(null));
+        dispatch(removeConnections());
+        dispatch(addRequests([]));
         navigate("/login", { replace: true });
+        // Disable back button
+        setTimeout(() => {
+          window.history.pushState(null, null, window.location.href);
+          window.onpopstate = function() {
+            window.history.pushState(null, null, window.location.href);
+          };
+        }, 0);
       }
     } catch (error) {
       console.error(error?.data?.message || error?.message);
@@ -37,7 +50,7 @@ const Navbar = () => {
     if (!loggedinUser) {
       navigate("/login", { replace: true });
     }
-  }, []);
+  }, [loggedinUser]);
 
   return (
     <div className="navbar bg-black shadow-sm mb-6">
