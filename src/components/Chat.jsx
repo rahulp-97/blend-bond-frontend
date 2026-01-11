@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createSocketConnection } from '../utils/socket';
@@ -13,6 +13,7 @@ const Chat = () => {
   const userId = user?._id;
 
   const navigate = useNavigate();
+  const messagesEndRef = useRef(null);
 
   const fetchMessages = async () => {
     try {
@@ -65,6 +66,12 @@ const Chat = () => {
     }
   }, [userId, targetUserId]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [messages]);
+
 
 
   const sendMessage = () => {
@@ -101,7 +108,7 @@ const Chat = () => {
   return (
     <div className="w-11/12 sm:w-1/2 bg-black mx-auto border border-gray-600 m-5 h-[70vh] flex flex-col">
       <h1 className="p-5 border-b border-gray-600">Chat</h1>
-      <div className="flex-1 overflow-scroll p-5">
+      <div ref={messagesEndRef} className="flex-1 overflow-scroll p-5">
         {messages?.map((msg, index) => (
           <div key={index} className="chat chat-start">
             {/* <div className="chat-image avatar">
